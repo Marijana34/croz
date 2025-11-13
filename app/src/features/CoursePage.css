@@ -1,0 +1,19 @@
+.content {
+  display: grid;
+  grid-template-columns: repeat(
+    3, minmax(0, 1fr)
+  );
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.CourseForm {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.GridSpan2 {
+    grid-column: span 2 / span 2;
+}

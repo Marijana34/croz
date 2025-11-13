@@ -7,49 +7,55 @@ import Button from "./components/Button";
 import Card from "./components/Card";
 import LanguageProvider, { LanguageContext } from "./components/LanguageContext";
 import Dropdown from "./components/Dropdown";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import CoursePage from "./features/CoursePage";
+import { Outlet } from "react-router";
+import { Navigate } from "react-router";
+import InputPage from "./features/InputPage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppContainer />,
+    children: [
+      {
+        index: true, // child koji se pojavljuje na "/" putanji, da redirecta na njega
+        element: <Navigate to="/courses" />,
+      },
+      {
+        path: "courses",
+        children: [
+          { index: true, element: <CoursePage /> },
+          { path: ":id/apply", element: <InputPage /> },
+        ],
+      },
+    ],
+  },
+]);
+
+function AppContainer() {
+  return (
+    <div className="container">
+      <NavBar />
+      <Outlet />
+    </div>
+  );
+}
 
 function App() {
-  const [counter, setCounter] = useState(0);
-
-  const onIncrement = () => {
-    setCounter((old) => old + 1);
-  };
-
-  const courses = [
-    {
-      src: "https://croz.net/app/uploads/2025/03/gitops-1.jpg",
-      title: "GitOps Fundamentals",
-      duration: 2,
-      category: "DEVOPS",
-    },
-    {
-      src: "https://croz.net/app/uploads/2025/03/gitops-1.jpg",
-      title: "GitOps Fundamentals",
-      duration: 2,
-      category: "DEVOPS",
-    },
-  ];
-
   return (
     <LanguageProvider>
-      <div className="container">
-        <div className="navBar">
-          <Title title="Education" subtitle="Continuous education is one of the crucial factors for success " />
-          <LanguagePicker />
-        </div>
-        <div className="content">
-          {courses.map((course) => (
-            <Card {...course} key={course.title} />
-          ))}
-        </div>
-        <Button label="Spremi" />
-        <Counter counter={counter} incrementCounter={onIncrement} />
-        <Counter counter={counter} incrementCounter={onIncrement} />
-        <Counter counter={counter} incrementCounter={onIncrement} />
-
-        <Card src="https://croz.net/app/uploads/2025/03/gitops-1.jpg" title="GitOps Fundamentals" duration={2} category="DEVOPS" />
-      </div>
+      <RouterProvider router={router} />
     </LanguageProvider>
+  );
+}
+
+function NavBar() {
+  return (
+    <div className="navBar">
+      <Title title="Education" subtitle="Continuous education is one of the crucial factors for success " />
+      <LanguagePicker />
+    </div>
   );
 }
 
