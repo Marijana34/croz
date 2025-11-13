@@ -1,31 +1,79 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import Title from "./components/Title";
 import Button from "./components/Button";
+import Card from "./components/Card";
+import LanguageProvider, { LanguageContext } from "./components/LanguageContext";
+import Dropdown from "./components/Dropdown";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [counter, setCounter] = useState(0);
+
+  const onIncrement = () => {
+    setCounter((old) => old + 1);
+  };
+
+  const courses = [
+    {
+      src: "https://croz.net/app/uploads/2025/03/gitops-1.jpg",
+      title: "GitOps Fundamentals",
+      duration: 2,
+      category: "DEVOPS",
+    },
+    {
+      src: "https://croz.net/app/uploads/2025/03/gitops-1.jpg",
+      title: "GitOps Fundamentals",
+      duration: 2,
+      category: "DEVOPS",
+    },
+  ];
 
   return (
-    <div className="container">
-      <div className="navBar">
-        <Title title="Education" subtitle="Continuous education is one of the crucial factors for success " />
+    <LanguageProvider>
+      <div className="container">
+        <div className="navBar">
+          <Title title="Education" subtitle="Continuous education is one of the crucial factors for success " />
+          <LanguagePicker />
+        </div>
+        <div className="content">
+          {courses.map((course) => (
+            <Card {...course} key={course.title} />
+          ))}
+        </div>
+        <Button label="Spremi" />
+        <Counter counter={counter} incrementCounter={onIncrement} />
+        <Counter counter={counter} incrementCounter={onIncrement} />
+        <Counter counter={counter} incrementCounter={onIncrement} />
+
+        <Card src="https://croz.net/app/uploads/2025/03/gitops-1.jpg" title="GitOps Fundamentals" duration={2} category="DEVOPS" />
       </div>
-      <div className="content"></div>
-      <Button label="Spremi" />
-    </div>
+    </LanguageProvider>
   );
 }
 
-function Counter() {
-  const [counter, setCounter] = useState(0);
+function LanguagePicker() {
+  const { language, setLanguage } = useContext(LanguageContext);
 
-  const onClick = () => {
-    setCounter((oldValue) => oldValue + 1);
-  };
-
-  return <button onClick={onClick}>Click me: {counter}</button>;
+  return (
+    <Dropdown
+      value={language}
+      onValueChange={setLanguage}
+      items={[
+        { value: "hr", label: "HR" },
+        { value: "en", label: "EN" },
+      ]}
+    />
+  );
 }
+
+interface CounterProps {
+  counter: number;
+  incrementCounter: () => void;
+}
+function Counter({ counter, incrementCounter }: CounterProps) {
+  return <button onClick={incrementCounter}>Click me: {counter}</button>;
+}
+
 export default App;
