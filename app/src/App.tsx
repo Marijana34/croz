@@ -13,11 +13,13 @@ import { Outlet } from "react-router";
 import { Navigate } from "react-router";
 import InputPage from "./features/InputPage";
 import AttendantsPage from "./features/AttendantsPage";
+import { ErrorBoundary } from "react-error-boundary";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <AppContainer />,
+    errorElement: <div>Global error</div>,
     children: [
       {
         index: true, // child koji se pojavljuje na "/" putanji, da redirecta na njega
@@ -28,7 +30,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <CoursePage /> },
           { path: ":id/apply", element: <InputPage /> },
-          { path: ":id/attendants", element: <AttendantsPage /> },
+          { path: ":id/attendants", element: <AttendantsPage />, errorElement: <div>Greska s dohvatom polaznika</div> },
         ],
       },
     ],
@@ -46,9 +48,11 @@ function AppContainer() {
 
 function App() {
   return (
-    <LanguageProvider>
-      <RouterProvider router={router} />
-    </LanguageProvider>
+    <ErrorBoundary fallback={<div>Ovo je boundry od cijele app</div>}>
+      <LanguageProvider>
+        <RouterProvider router={router} />
+      </LanguageProvider>
+    </ErrorBoundary>
   );
 }
 
