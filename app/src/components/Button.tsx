@@ -1,13 +1,14 @@
+import type { ButtonHTMLAttributes } from "react";
 import "./Button.css";
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
 }
 
-export default function Button({ label }: ButtonProps) {
+export default function Button({ label, ...props }: ButtonProps) {
   return (
-    <div>
-      <button className="button">{label}</button>
-    </div>
+    <button className="button" {...props}>
+      {label}
+    </button>
   );
 }

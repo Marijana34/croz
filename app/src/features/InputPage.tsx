@@ -7,7 +7,7 @@ import "../features/InputPage.css";
 
 const InputPage = () => {
   const [name, setName] = useState("");
-  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [formErrors, setFormErrors] = useState<Record<string, string>>();
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -38,12 +38,12 @@ const InputPage = () => {
     <div className="CourseApply">
       <Title title={`Prijava za ${name}`} />
       <form onSubmit={onSubmit} className="CourseForm">
-        <InputField name="firstName" label="First Name" error={formErrors.firstName} />
-        <InputField name="lastName" label="Last Name" error={formErrors.lastName} />
+        <InputField name="firstName" label="First Name" error={formErrors?.firstName} />
+        <InputField name="lastName" label="Last Name" error={formErrors?.lastName} />
         <InputField name="company" label="Company" />
         <InputField name="email" label="Email" />
         <InputField name="message" label="Message" className="GridSpan2" />
-        <Button label="Apply" />
+        <Button label="Apply" type="submit" />
       </form>
     </div>
   );

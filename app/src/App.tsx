@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -61,6 +61,10 @@ function NavBar() {
 
 function LanguagePicker() {
   const { language, setLanguage } = useContext(LanguageContext);
+
+  useEffect(() => {
+    document.title = language;
+  }, [language]);
 
   return (
     <Dropdown

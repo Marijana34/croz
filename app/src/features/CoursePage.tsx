@@ -1,28 +1,20 @@
+import { useEffect, useState } from "react";
 import Card from "../components/Card";
+import { getCourse } from "../api/CourseApi";
+import type { CourseResponse } from "../model/course";
+import { getAllData } from "../api/AllApi";
 
 export default function CoursePage() {
-  const courses = [
-    {
-      id: 1,
-      src: "https://croz.net/app/uploads/2025/03/gitops-1.jpg",
-      title: "GitOps Fundamentals",
-      duration: 2,
-      category: "DEVOPS",
-    },
-    {
-      id: 2,
-      src: "https://croz.net/app/uploads/2025/03/gitops-1.jpg",
-      title: "Service Mesh Workshop",
-      duration: 2,
-      category: "DEVOPS",
-    },
-  ];
+  const [courses, setCourses] = useState<CourseResponse[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  return (
-    <div className="content">
-      {courses.map((course) => (
-        <Card {...course} key={course.title} />
-      ))}
-    </div>
-  );
+  useEffect(() => {
+    setLoading(true);
+    getAllData().then((data) => {
+      setCourses(data);
+      setLoading(false);
+    });
+  }, []);
+
+  return <div className="content">{loading ? "Loading..." : courses.map((course) => <Card {...course} key={course.id} />)}</div>;
 }
