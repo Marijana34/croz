@@ -12,6 +12,7 @@ import CoursePage from "./features/CoursePage";
 import { Outlet } from "react-router";
 import { Navigate } from "react-router";
 import InputPage from "./features/InputPage";
+import AttendantsPage from "./features/AttendantsPage";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <CoursePage /> },
           { path: ":id/apply", element: <InputPage /> },
+          { path: ":id/attendants", element: <AttendantsPage /> },
         ],
       },
     ],
